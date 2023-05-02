@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FirstFragment">
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="153dp"
+        android:layout_marginEnd="164dp"
+        android:layout_marginBottom="75dp"
+        android:text="Collect winnings"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="153dp"
+        android:layout_marginEnd="164dp"
+        android:layout_marginBottom="33dp"
+        android:text="Add Credit"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="155dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginBottom="33dp"
+        android:text="Spin"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageReel2"
+        android:layout_width="108dp"
+        android:layout_height="116dp"
+        android:layout_marginTop="244dp"
+        android:layout_marginEnd="28dp"
+        android:src="@drawable/apple"
+        app:layout_constraintEnd_toStartOf="@+id/imageReel3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageReel1"
+        android:layout_width="108dp"
+        android:layout_height="116dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginEnd="25dp"
+        android:src="@drawable/apple"
+        app:layout_constraintEnd_toStartOf="@+id/imageReel2"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="246dp" />
+
+    <ImageView
+        android:id="@+id/imageReel3"
+        android:layout_width="108dp"
+        android:layout_height="116dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/apple"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="246dp" />
+
+    <TextView
+        android:id="@+id/creds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#000000"
+        android:paddingHorizontal="25sp"
+        android:text="0"
+        android:textColor="#39FF14"
+        android:textSize="48sp"
+        tools:layout_editor_absoluteX="54dp"
+        tools:layout_editor_absoluteY="147dp" />
+
+    <TextView
+        android:id="@+id/credit_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="54dp"
+        android:layout_marginBottom="68dp"
+        android:text="Credit"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/creds"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/WinningCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#000000"
+        android:paddingHorizontal="25sp"
+        android:text="0"
+        android:textAlignment="center"
+        android:textColor="#39ff14"
+        android:textSize="48sp"
+        tools:layout_editor_absoluteX="295dp"
+        tools:layout_editor_absoluteY="146dp" />
+
+    <TextView
+        android:id="@+id/Winnings_Lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="70dp"
+        android:text="Winnings"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/WinningCounter"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
