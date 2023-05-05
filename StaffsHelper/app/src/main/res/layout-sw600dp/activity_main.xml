@@ -8,8 +8,8 @@
 
     <ImageButton
         android:id="@+id/emergancyButton"
-        android:layout_width="370dp"
-        android:layout_height="164dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
@@ -23,8 +23,8 @@
 
     <ImageButton
         android:id="@+id/cameraButton"
-        android:layout_width="370dp"
-        android:layout_height="164dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
@@ -39,8 +39,8 @@
 
     <ImageButton
         android:id="@+id/mapButton"
-        android:layout_width="175dp"
-        android:layout_height="154dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
@@ -54,8 +54,8 @@
 
     <ImageButton
         android:id="@+id/settingsButton"
-        android:layout_width="175dp"
-        android:layout_height="154dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
@@ -69,10 +69,14 @@
 
     <ImageView
         android:id="@+id/imgIcon"
-        android:layout_width="87dp"
-        android:layout_height="92dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="25dp"
         android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/verticalWeather"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/horizontal3"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
@@ -84,7 +88,8 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="15dp"
         android:text="@string/txtName"
-        app:layout_constraintStart_toEndOf="@+id/imgIcon"
+        android:textSize="48sp"
+        app:layout_constraintStart_toEndOf="@id/verticalWeather"
         app:layout_constraintTop_toBottomOf="@id/horizontal3" />
 
     <TextView
@@ -92,9 +97,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="35dp"
         android:text="@string/txtTemp"
-        app:layout_constraintStart_toEndOf="@+id/imgIcon"
+        android:textSize="48sp"
+        app:layout_constraintStart_toEndOf="@id/verticalWeather"
         app:layout_constraintTop_toBottomOf="@+id/txtName" />
 
     <TextView
@@ -102,9 +108,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="35dp"
         android:text="@string/txtDescription"
-        app:layout_constraintStart_toEndOf="@+id/imgIcon"
+        android:textSize="48sp"
+        app:layout_constraintStart_toEndOf="@id/verticalWeather"
         app:layout_constraintTop_toBottomOf="@+id/txtTemp" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -127,5 +134,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.75" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/verticalWeather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

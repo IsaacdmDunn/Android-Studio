@@ -1,9 +1,13 @@
 package com.example.staffshelper
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import com.squareup.picasso.Picasso
 import retrofit2.Call
@@ -15,7 +19,35 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         loadData()
+
+        val settingsButton: ImageButton = findViewById(R.id.settingsButton)
+        settingsButton.setOnClickListener{
+            val settingsIntent: Intent = Intent(this, SettingsActivity::class.java).apply {  }
+            launcher.launch(settingsIntent)
+        }
+
+        val cameraButton: ImageButton = findViewById(R.id.cameraButton)
+        cameraButton.setOnClickListener{
+            val cameraIntent: Intent = Intent(this, CameraActivity::class.java).apply {  }
+            launcher.launch(cameraIntent)
+        }
+
+        val mapButton: ImageButton = findViewById(R.id.mapButton)
+        mapButton.setOnClickListener{
+            val mapIntent: Intent = Intent(this, MapActivity::class.java).apply {  }
+            launcher.launch(mapIntent)
+        }
+
+        val emergancyButton: ImageButton = findViewById(R.id.emergancyButton)
+        emergancyButton.setOnClickListener{
+            val emergancyIntent: Intent = Intent(this, EmergancyActivity::class.java).apply {  }
+            launcher.launch(emergancyIntent)
+        }
+
+
     }
+
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){}
 
     private fun loadData() {
         val service  = ServiceBuilder.buildService(WeatherService::class.java)

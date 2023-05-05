@@ -1,98 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
     <ImageButton
         android:id="@+id/emergancyButton"
-        android:layout_width="370dp"
-        android:layout_height="164dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:contentDescription="Press this button if you have an emergancy"
         app:layout_constraintBottom_toTopOf="@id/horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <ImageButton
         android:id="@+id/cameraButton"
-        android:layout_width="370dp"
-        android:layout_height="164dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:contentDescription="press this to take a photo which will read out any text present"
-        app:layout_constraintBottom_toTopOf="@id/horizontal2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/horizontal"
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <ImageButton
         android:id="@+id/mapButton"
-        android:layout_width="175dp"
-        android:layout_height="154dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:contentDescription="press this button to get directions around campus"
-        app:layout_constraintBottom_toBottomOf="@id/horizontal3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/settingsButton"
-        app:layout_constraintTop_toBottomOf="@id/horizontal2"
+        app:layout_constraintBottom_toTopOf="@id/horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/settingsButton"
+        app:layout_constraintStart_toEndOf="@id/vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <ImageButton
         android:id="@+id/settingsButton"
-        android:layout_width="175dp"
-        android:layout_height="154dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:contentDescription="press this button to change settings"
-        app:layout_constraintBottom_toTopOf="@id/horizontal3"
-        app:layout_constraintEnd_toStartOf="@+id/mapButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/horizontal2"
+        app:layout_constraintBottom_toTopOf="@id/horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/mapButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <ImageView
         android:id="@+id/imgIcon"
         android:layout_width="87dp"
         android:layout_height="92dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/horizontal3"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@id/vertical"
+        app:layout_constraintTop_toBottomOf="@id/horizontal"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     <TextView
         android:id="@+id/txtName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="28dp"
         android:text="@string/txtName"
         app:layout_constraintStart_toEndOf="@+id/imgIcon"
-        app:layout_constraintTop_toBottomOf="@id/horizontal3" />
+        app:layout_constraintTop_toBottomOf="@id/horizontal" />
 
     <TextView
         android:id="@+id/txtTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="13dp"
         android:text="@string/txtTemp"
         app:layout_constraintStart_toEndOf="@+id/imgIcon"
         app:layout_constraintTop_toBottomOf="@+id/txtName" />
@@ -101,8 +102,8 @@
         android:id="@+id/txtDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="16dp"
         android:text="@string/txtDescription"
         app:layout_constraintStart_toEndOf="@+id/imgIcon"
         app:layout_constraintTop_toBottomOf="@+id/txtTemp" />
@@ -112,20 +113,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/horizontal2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/horizontal3"
+        android:id="@+id/vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.75" />
-
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.47" />
 </androidx.constraintlayout.widget.ConstraintLayout>
