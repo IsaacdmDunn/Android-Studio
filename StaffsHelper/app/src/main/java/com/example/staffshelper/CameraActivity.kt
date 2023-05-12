@@ -1,45 +1,92 @@
 package com.example.staffshelper
 
+import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.MediaController
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
 
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.LifecycleCameraController
+import androidx.camera.view.PreviewView
+import androidx.core.content.ContextCompat
+import com.example.staffshelper.databinding.ActivityMainBinding
 import com.google.common.util.concurrent.ListenableFuture
 
 class CameraActivity : AppCompatActivity() {
-    private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
+
+    private lateinit var viewBinding: ActivityMainBinding
+
+    private  lateinit var cameraController: LifecycleCameraController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_camera)
+        viewBinding = ActivityMainBinding.inflate(layoutInflater)
 
-        val cameraStartButton: ImageButton = findViewById(R.id.CameraStartButton)
+        setContentView(viewBinding.root)
 
-        cameraStartButton.setOnClickListener {
-
-            takePhoto()
+        if (!hasPermissions(baseContext)){
+            activityResultLauncher.launch(REQUIRED_PERMS)
+        }
+        else {
+            startCamera()
         }
     }
 
-    fun takePhoto(){
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+    private fun startCamera(){
+        val previewView: PreviewView = viewBinding.viewFinder// get viewfinder id
+        cameraController = LifecycleCameraController(baseContext)
+        cameraController.bindToLifecycle(this)
+        cameraController.cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
 
-        if (intent.resolveActivity(packageManager) != null){
-            startActivityForResult(intent, 2)
+        previewView.controller = cameraController
+    }
+
+    private val activityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
+                permissions ->
+            var permissionsGranted = true
+            permissions.entries.forEach {
+                if (it.key in REQUIRED_PERMS && it.value == false) permissionsGranted = false
+            }
+            if (!permissionsGranted){
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                startCamera()
+            }
+        }
+
+
+    companion object{
+        private const val TAG = "StaffsHelper"
+        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
+        //file format
+
+        private val REQUIRED_PERMS =
+            mutableListOf(
+                android.Manifest.permission.CAMERA
+            ).apply {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P){
+                    add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                }
+            }.toTypedArray()
+        fun hasPermissions(context: Context) = REQUIRED_PERMS.all {
+            ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        val imageFromCamera: ImageView = findViewById(R.id.imageFromCameraView)
-        if (requestCode == 2 && resultCode == RESULT_OK){
-            val imageBitmap = data?.extras?.get("data") as Bitmap
-            imageFromCamera.setImageBitmap(imageBitmap)
-        }
-    }
 
 }
