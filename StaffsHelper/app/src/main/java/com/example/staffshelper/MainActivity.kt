@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         val requestCall = service.getWeather()
 
         val txtName: TextView = findViewById(R.id.txtName)
+        val txtWeatherWarning: TextView = findViewById(R.id.txtWeatherWarning)
         val txtTemp: TextView = findViewById(R.id.txtTemp)
         val txtDescription: TextView = findViewById(R.id.txtDescription)
         val imgIcon: ImageView = findViewById(R.id.imgIcon)
@@ -67,6 +68,10 @@ class MainActivity : AppCompatActivity() {
                     val weather  = response.body()!!
 
                     txtName.text = weather.name
+                    if(weather.weather[0].description == "rain")
+                    {
+                        txtWeatherWarning.text = "Warning Weather Trip Hazard"
+                    }
                     txtTemp.text = weather.main.temp.toString()
                     txtDescription.text = weather.weather[0].description
                     Picasso.get().load("https://openweathermap.org/img/w/${weather.weather[0].icon}.png").into(imgIcon)

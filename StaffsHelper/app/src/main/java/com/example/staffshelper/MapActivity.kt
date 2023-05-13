@@ -14,6 +14,8 @@ import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -31,17 +33,48 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
             FusedLocationProviderClient
 
     private  lateinit var sensorManager: SensorManager
+
     private var light: Sensor? = null
     var distance: Double = 0.00
+    var latitudeDestination: Double = 2.10353
+    var longitudeDestination: Double = 53.00315
+
+    var updateFrames: Int = 10
+    var updateFrameCount: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map_mode)
 
+        var destinationTextView: TextView = findViewById(R.id.Destination)
 
-        fusedLocationProviderClient =
-            LocationServices.getFusedLocationProviderClient(this)
+        val cadmanCoordButton: Button = findViewById(R.id.Cadman)
+        cadmanCoordButton.setOnClickListener{
+            latitudeDestination = 2.10543
+            longitudeDestination = 53.00348
+            destinationTextView.text = "Cadman"
+        }
 
+        val mellorCoordButton: Button = findViewById(R.id.Mellor)
+        mellorCoordButton.setOnClickListener{
+            latitudeDestination = 2.18053
+            longitudeDestination = 53.00964
+            destinationTextView.text = "Mellor"
+        }
+
+        val scienceCoordButton: Button = findViewById(R.id.ScienceBuilding)
+        scienceCoordButton.setOnClickListener{
+            latitudeDestination = 2.17794
+            longitudeDestination = 53.00728
+            destinationTextView.text = "Science Building"
+        }
+
+        val ashley2CoordButton: Button = findViewById(R.id.Ashley2)
+        ashley2CoordButton.setOnClickListener{
+            latitudeDestination = 2.17333
+            longitudeDestination = 53.009792
+            destinationTextView.text = "Ashley 2"
+        }
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
@@ -52,6 +85,9 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
         else {
             //no sensor
         }
+
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(this)
     }
 
     override fun onResume() {
@@ -81,7 +117,7 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
 
         //speedXTxt.text = speedX.toString()
         //speedZTxt.text = speedZ.toString()
-
+        getLocation()
         if (!(getSystemService(Context.LOCATION_SERVICE) as LocationManager)
                 .isProviderEnabled(LocationManager.GPS_PROVIDER)
         )
@@ -99,10 +135,14 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
             getLocation()
         }
 
-        haversineDistance(50.0, 51.0, 50.0, 51.0)
-        speedXTxt.text = distance.toBigDecimal().setScale(3, RoundingMode.UP).toString() + "KM"
-        speedYTxt.text = speedMS.toBigDecimal().setScale(2, RoundingMode.UP).toString()
-        speedZTxt.text = "ETA: " + (distance/speedMS).toInt().toString()
+
+        //speedXTxt.text = distance.toBigDecimal().setScale(3, RoundingMode.UP).toString() + "KM"
+        //speedYTxt.text = speedMS.toBigDecimal().setScale(2, RoundingMode.UP).toString() + "m/s"
+        if (updateFrameCount > updateFrames) {
+            speedZTxt.text = "ETA: " + ((distance * 1000) / speedMS).toInt().toString() + "seconds"
+            updateFrameCount = 0
+        }
+        updateFrameCount++
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
@@ -135,8 +175,6 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
     }
 
     private fun getLocation() {
-        val speedXTxt: TextView = findViewById(R.id.SpeedX)
-        val speedYTxt: TextView = findViewById(R.id.SpeedY)
 
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -153,8 +191,12 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
             if (location == null) {
                 Toast.makeText(this, "problems", Toast.LENGTH_SHORT).show()
             } else {
-                speedXTxt.text = location.longitude.toString()
-                speedYTxt.text = location.latitude.toString()
+                haversineDistance(
+                    location.latitude.toDouble(),
+                    latitudeDestination,
+                    location.longitude.toDouble(),
+                    longitudeDestination
+                )
             }
         }
 

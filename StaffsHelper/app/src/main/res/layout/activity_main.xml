@@ -107,6 +107,15 @@
         app:layout_constraintStart_toEndOf="@+id/imgIcon"
         app:layout_constraintTop_toBottomOf="@+id/txtTemp" />
 
+    <TextView
+        android:id="@+id/txtWeatherWarning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="@string/txtDescription"
+        app:layout_constraintStart_toEndOf="@+id/imgIcon"
+        app:layout_constraintTop_toBottomOf="@id/horizontal3" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/horizontal"
         android:layout_width="wrap_content"
