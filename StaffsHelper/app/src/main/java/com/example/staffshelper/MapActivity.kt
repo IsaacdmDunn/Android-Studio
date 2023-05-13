@@ -20,6 +20,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import java.math.RoundingMode
+import kotlin.math.roundToLong
 
 class MapActivity : AppCompatActivity(), SensorEventListener {
 
@@ -30,6 +32,7 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
 
     private  lateinit var sensorManager: SensorManager
     private var light: Sensor? = null
+    var distance: Double = 0.00
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +45,8 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
-        if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null){
-            light = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        if (sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION) != null){
+            light = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
 
         }
         else {
@@ -74,9 +77,10 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
         val speedY = event.values[1]
         val speedZ = event.values[2]
 
+        val speedMS = Math.sqrt((speedX * speedX + speedY * speedY + speedZ * speedZ).toDouble())
+
         //speedXTxt.text = speedX.toString()
-        //speedYTxt.text = speedY.toString()
-        speedZTxt.text = speedZ.toString()
+        //speedZTxt.text = speedZ.toString()
 
         if (!(getSystemService(Context.LOCATION_SERVICE) as LocationManager)
                 .isProviderEnabled(LocationManager.GPS_PROVIDER)
@@ -95,7 +99,10 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
             getLocation()
         }
 
-
+        haversineDistance(50.0, 51.0, 50.0, 51.0)
+        speedXTxt.text = distance.toBigDecimal().setScale(3, RoundingMode.UP).toString() + "KM"
+        speedYTxt.text = speedMS.toBigDecimal().setScale(2, RoundingMode.UP).toString()
+        speedZTxt.text = "ETA: " + (distance/speedMS).toInt().toString()
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
@@ -166,6 +173,22 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
         ) {
             getLocation()
         }
+    }
+
+
+    fun haversineDistance(lat1: Double, lat2: Double, long1: Double, long2: Double) {
+        var deltaLatitude = Math.toRadians(lat2 - lat1)
+        var deltaLongitude = Math.toRadians(long2 - long1)
+
+        var latitudeA = Math.toRadians(lat1)//lat1 * 3.14156/180
+        var latitudeB = Math.toRadians(lat2)//lat2 * 3.14156/180
+
+        var a = (Math.sin(deltaLatitude/2) * Math.sin(deltaLatitude/2)) +
+                (Math.sin(deltaLongitude/2) * Math.sin(deltaLongitude/2) * Math.cos(latitudeA) * Math.cos(latitudeB))
+        var c = (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)))
+        distance = 6371 * c
+
+
     }
 
 
