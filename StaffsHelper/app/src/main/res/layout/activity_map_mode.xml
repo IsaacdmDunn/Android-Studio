@@ -1,45 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/MapLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:layout_editor_absoluteX="166dp"
+    tools:layout_editor_absoluteY="0dp"
     tools:context=".MapActivity">
 
     <TextView
-        android:id="@+id/SpeedX"
+        android:id="@+id/Distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/distance_n_a"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/SpeedY"
+        android:id="@+id/Speed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="50dp"
-        android:text="TextView"
+        android:text="@string/speed_0m_s"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/Distance" />
 
     <TextView
-        android:id="@+id/SpeedZ"
+        android:id="@+id/Eta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="TextView"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/eta_n_a"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/Speed" />
 
     <TextView
         android:id="@+id/Destination"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:text="Destination not selected"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/destination_not_selected"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/Eta" />
 
     <Button
         android:id="@+id/Cadman"
@@ -47,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="21dp"
         android:layout_marginEnd="21dp"
-        android:text="Cadman"
+        android:text="@string/cadman"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="121dp"
         android:layout_marginEnd="21dp"
-        android:text="Mellor"
+        android:text="@string/mellor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -67,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="221dp"
         android:layout_marginEnd="21dp"
-        android:text="Ashley 2"
+        android:text="@string/ashley_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -77,7 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="321dp"
         android:layout_marginEnd="21dp"
-        android:text="Science Building"
+        android:text="@string/science_building"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

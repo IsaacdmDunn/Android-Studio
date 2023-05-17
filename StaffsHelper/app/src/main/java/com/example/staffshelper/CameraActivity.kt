@@ -1,33 +1,25 @@
 package com.example.staffshelper
 
-import android.content.ActivityNotFoundException
 import android.content.ContentValues
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.View
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.MediaController
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 
-import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.staffshelper.databinding.ActivityCameraBinding
-import com.example.staffshelper.databinding.ActivityMainBinding
-import com.google.common.util.concurrent.ListenableFuture
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,9 +30,18 @@ class CameraActivity : AppCompatActivity() {
 
     private  lateinit var cameraController: LifecycleCameraController
 
+    var darkMode: Boolean = false
+    var textSize: Int = 18
+    var textColour: String = "none" //only get colour from darkmode
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityCameraBinding.inflate(layoutInflater)
+
+        darkMode = intent.getBooleanExtra("SETTINGS_DARKMODE", false)
+        textSize = intent.getIntExtra("SETTING_TXTSIZE", 18)
+        textColour = intent.getStringExtra("SETTINGS_TEXTCOLOUR").toString()
+
 
         setContentView(viewBinding.root)
 
@@ -54,6 +55,8 @@ class CameraActivity : AppCompatActivity() {
         viewBinding.CameraStartButton.setOnClickListener {
             takePhoto()
         }
+
+        settings()
     }
 
     private fun startCamera(){
@@ -139,6 +142,17 @@ class CameraActivity : AppCompatActivity() {
             }.toTypedArray()
         fun hasPermissions(context: Context) = REQUIRED_PERMS.all {
             ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    private fun settings(){
+        val backGround: ConstraintLayout = findViewById(R.id.CamaraLayout)
+        if (darkMode){
+
+            backGround.setBackgroundColor(Color.BLACK)
+        }
+        else{
+            backGround.setBackgroundColor(Color.WHITE)
         }
     }
 

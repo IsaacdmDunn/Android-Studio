@@ -4,7 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/MainLayout"
+    >
+
 
     <ImageButton
         android:id="@+id/emergancyButton"
@@ -14,6 +17,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/purple_200"
         android:contentDescription="Press this button if you have an emergancy"
         app:layout_constraintBottom_toTopOf="@id/horizontal"
         app:layout_constraintEnd_toStartOf="@id/vertical"
@@ -29,6 +33,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/purple_200"
         android:contentDescription="press this to take a photo which will read out any text present"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/vertical"
@@ -44,6 +49,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/purple_200"
         android:contentDescription="press this button to get directions around campus"
         app:layout_constraintBottom_toTopOf="@id/horizontal"
         app:layout_constraintEnd_toStartOf="@+id/settingsButton"
@@ -60,6 +66,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/purple_200"
         android:contentDescription="press this button to change settings"
         app:layout_constraintBottom_toTopOf="@id/horizontal"
         app:layout_constraintEnd_toEndOf="parent"

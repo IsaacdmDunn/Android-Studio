@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/MainLayout"
+    >
 
     <ImageButton
         android:id="@+id/emergancyButton"
@@ -14,6 +16,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
+        android:backgroundTint="@color/purple_200"
         android:contentDescription="Press this button if you have an emergancy"
         app:layout_constraintBottom_toTopOf="@id/horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,6 +32,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
+        android:backgroundTint="@color/purple_200"
         android:contentDescription="press this to take a photo which will read out any text present"
         app:layout_constraintBottom_toTopOf="@id/horizontal2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,6 +49,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
+        android:backgroundTint="@color/purple_200"
         android:contentDescription="press this button to get directions around campus"
         app:layout_constraintBottom_toBottomOf="@id/horizontal3"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,6 +65,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
+        android:backgroundTint="@color/purple_200"
         android:contentDescription="press this button to change settings"
         app:layout_constraintBottom_toTopOf="@id/horizontal3"
         app:layout_constraintEnd_toStartOf="@+id/mapButton"

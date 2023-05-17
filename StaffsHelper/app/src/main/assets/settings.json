@@ -2,7 +2,15 @@
     "Settings" : [
       {
         "darkMode": "true",
-        "otherStuff": "true"
+        "textSize": "18",
+        "textColour" : "#FFFF00",
+        "backgroundColour" : "#0000FF"
+      },
+      {
+        "darkMode": "true",
+        "textSize": "18",
+        "textColour" : "none",
+        "backgroundColour" : "none"
       }
     ]
 }

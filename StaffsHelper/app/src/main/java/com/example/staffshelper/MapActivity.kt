@@ -1,10 +1,10 @@
 package com.example.staffshelper
 
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -15,15 +15,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import java.math.RoundingMode
-import kotlin.math.roundToLong
 
 class MapActivity : AppCompatActivity(), SensorEventListener {
 
@@ -42,10 +40,18 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
     var updateFrames: Int = 10
     var updateFrameCount: Int = 0
 
+    var darkMode: Boolean = false
+    var textSize: Int = 18
+    var textColour: String = "none" //only get colour from darkmode
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map_mode)
 
+        darkMode = intent.getBooleanExtra("SETTINGS_DARKMODE", false)
+        textSize = intent.getIntExtra("SETTING_TXTSIZE", 18)
+        textColour = intent.getStringExtra("SETTINGS_TEXTCOLOUR").toString()
+        settings()
         var destinationTextView: TextView = findViewById(R.id.Destination)
 
         val cadmanCoordButton: Button = findViewById(R.id.Cadman)
@@ -88,13 +94,15 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
 
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(this)
+
+
     }
 
     override fun onResume() {
         super.onResume()
         light?.let {
             light->sensorManager.registerListener(this,
-        light, SensorManager.SENSOR_DELAY_NORMAL)
+        light, SensorManager.SENSOR_DELAY_UI)
         }
     }
 
@@ -105,9 +113,9 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent) {
 
-        val speedXTxt: TextView = findViewById(R.id.SpeedX)
-        val speedYTxt: TextView = findViewById(R.id.SpeedY)
-        val speedZTxt: TextView = findViewById(R.id.SpeedZ)
+        val speedXTxt: TextView = findViewById(R.id.Distance)
+        val speedYTxt: TextView = findViewById(R.id.Speed)
+        val speedZTxt: TextView = findViewById(R.id.Eta)
 
         val speedX = event.values[0]
         val speedY = event.values[1]
@@ -138,11 +146,9 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
 
         //speedXTxt.text = distance.toBigDecimal().setScale(3, RoundingMode.UP).toString() + "KM"
         //speedYTxt.text = speedMS.toBigDecimal().setScale(2, RoundingMode.UP).toString() + "m/s"
-        if (updateFrameCount > updateFrames) {
-            speedZTxt.text = "ETA: " + ((distance * 1000) / speedMS).toInt().toString() + "seconds"
-            updateFrameCount = 0
-        }
-        updateFrameCount++
+
+        speedZTxt.text = "ETA: " + ((distance * 1000) / speedMS).toInt().toString() + "seconds"
+
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
@@ -231,6 +237,39 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
         distance = 6371 * c
 
 
+    }
+
+    private fun settings(){
+        val backGround: ConstraintLayout = findViewById(R.id.MapLayout)
+        val distanceTextView: TextView = findViewById(R.id.Distance)
+        val speedTextView: TextView = findViewById(R.id.Speed)
+        val ETATextView: TextView = findViewById(R.id.Eta)
+        val destinationTextView: TextView = findViewById(R.id.Destination)
+        if (darkMode){
+
+            backGround.setBackgroundColor(Color.BLACK)
+            distanceTextView.setTextColor(Color.WHITE)
+            speedTextView.setTextColor(Color.WHITE)
+            ETATextView.setTextColor(Color.WHITE)
+            destinationTextView.setTextColor(Color.WHITE)
+        }
+        else{
+            backGround.setBackgroundColor(Color.WHITE)
+            distanceTextView.setTextColor(Color.BLACK)
+            speedTextView.setTextColor(Color.BLACK)
+            ETATextView.setTextColor(Color.BLACK)
+            destinationTextView.setTextColor(Color.BLACK)
+        }
+        if (textColour != "none"){
+            distanceTextView.setTextColor(Color.parseColor(textColour))
+            speedTextView.setTextColor(Color.parseColor(textColour))
+            ETATextView.setTextColor(Color.parseColor(textColour))
+            destinationTextView.setTextColor(Color.parseColor(textColour))
+        }
+        distanceTextView.setTextSize(textSize.toFloat())
+        speedTextView.setTextSize(textSize.toFloat())
+        ETATextView.setTextSize(textSize.toFloat())
+        destinationTextView.setTextSize(textSize.toFloat())
     }
 
 

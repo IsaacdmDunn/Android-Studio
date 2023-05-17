@@ -2,9 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/CamaraLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:layout_editor_absoluteX="166dp"
+    tools:layout_editor_absoluteY="0dp"
     tools:context=".CameraActivity">
 
     <androidx.camera.view.PreviewView
@@ -21,22 +24,14 @@
         android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="25dp"
+        android:backgroundTint="#22FFFFFF"
+        android:contentDescription="@string/image_taken_from_camera"
         app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/ic_menu_gallery" />
 
-
-    <TextView
-        android:id="@+id/ImageViewTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="25dp"
-        android:text="No text visible."
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline" />
 
     <ImageButton
         android:id="@+id/CameraStartButton"
@@ -45,11 +40,15 @@
         android:layout_marginStart="125dp"
         android:layout_marginEnd="125dp"
         android:layout_marginBottom="25dp"
-        android:contentDescription="Button for taking a picture with the camera"
+        android:backgroundTint="#22FFFFFF"
+        android:contentDescription="@string/button_for_taking_a_picture_with_the_camera"
+        android:scaleX="3"
+        android:scaleY="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@android:drawable/radiobutton_off_background"
+        tools:ignore="RedundantDescriptionCheck" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

@@ -24,4 +24,18 @@
     <string name="txtDescription">TextView</string>
     <string name="txtTemp">TextView</string>
     <string name="txtName">TextView</string>
+    <string name="text_colour">Text Colour</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="text_size">Text Size</string>
+    <string name="button_for_taking_a_picture_with_the_camera">Button for taking a picture with the camera</string>
+    <string name="image_taken_from_camera">Image taken from camera</string>
+    <string name="destination_not_selected">Destination not selected</string>
+    <string name="cadman">Cadman</string>
+    <string name="mellor">Mellor</string>
+    <string name="ashley_2">Ashley 2</string>
+    <string name="science_building">Science Building</string>
+    <string name="eta_n_a">ETA: N/A</string>
+    <string name="speed_0m_s">Speed: 0M/s</string>
+    <string name="distance_n_a">Distance N/A</string>
+    <string name="press_to_call_security">Press To Call Security</string>
 </resources>
