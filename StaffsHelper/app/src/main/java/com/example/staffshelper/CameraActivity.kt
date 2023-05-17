@@ -30,14 +30,18 @@ class CameraActivity : AppCompatActivity() {
 
     private  lateinit var cameraController: LifecycleCameraController
 
+    //default settings
     var darkMode: Boolean = false
     var textSize: Int = 18
     var textColour: String = "none" //only get colour from darkmode
 
+    //on create layout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityCameraBinding.inflate(layoutInflater)
 
+
+        //get data passed from main
         darkMode = intent.getBooleanExtra("SETTINGS_DARKMODE", false)
         textSize = intent.getIntExtra("SETTING_TXTSIZE", 18)
         textColour = intent.getStringExtra("SETTINGS_TEXTCOLOUR").toString()
@@ -45,20 +49,25 @@ class CameraActivity : AppCompatActivity() {
 
         setContentView(viewBinding.root)
 
+        //if camera has no permissions get permissions
         if (!hasPermissions(baseContext)){
             activityResultLauncher.launch(REQUIRED_PERMS)
         }
+        //permissions already found start camera
         else {
             startCamera()
         }
 
+        //if camera button pressed take photo
         viewBinding.CameraStartButton.setOnClickListener {
             takePhoto()
         }
 
+        //set settings
         settings()
     }
 
+    //sets up the camera controller and gets front camera
     private fun startCamera(){
         //val previewView: PreviewView = findViewById(R.id.viewFinder)
         val previewView: PreviewView = viewBinding.viewFinder
@@ -69,7 +78,9 @@ class CameraActivity : AppCompatActivity() {
         previewView.controller = cameraController
     }
 
+    //takes a photo and processes the data
     private fun takePhoto(){
+        //sets content values
         val name= SimpleDateFormat(FILENAME_FORMAT, Locale.ENGLISH).format(System.currentTimeMillis())
         val contentValues = ContentValues().apply{
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
@@ -79,12 +90,14 @@ class CameraActivity : AppCompatActivity() {
             }
         }
 
+        //takes picture
         val outputOptions = ImageCapture.OutputFileOptions
             .Builder(contentResolver, MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues).build()
         cameraController.takePicture(
             outputOptions,
             ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback{
+                //save image and use its bitmap as image view content
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     Toast.makeText(baseContext, "Photo taken: " + name, Toast.LENGTH_SHORT).show()
                     val imageFile = File("/storage/emulated/0/Pictures/StaffsHelper/$name.jpg")
@@ -97,10 +110,9 @@ class CameraActivity : AppCompatActivity() {
                     else{
                         Toast.makeText(baseContext, "Image preview not found. $imageFile", Toast.LENGTH_SHORT).show()
                     }
-
-                    //save file local
                 }
 
+                //if save failed output error
                 override fun onError(exception: ImageCaptureException) {
                     Toast.makeText(baseContext, "Failed to take photo", Toast.LENGTH_SHORT).show()
 
@@ -112,6 +124,7 @@ class CameraActivity : AppCompatActivity() {
 
     }
 
+    //requests all required permissions
     private val activityResultLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
                 permissions ->
@@ -119,6 +132,7 @@ class CameraActivity : AppCompatActivity() {
             permissions.entries.forEach {
                 if (it.key in REQUIRED_PERMS && it.value == false) permissionsGranted = false
             }
+            //if failed then show error
             if (!permissionsGranted){
                 Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
             }
@@ -127,11 +141,12 @@ class CameraActivity : AppCompatActivity() {
             }
         }
 
-
+    //object for image requirements and settings
     companion object{
+        //sets file format as data to be used as naming scheme
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
-        //file format
 
+        //list of required permissions (camera and external storage)
         private val REQUIRED_PERMS =
             mutableListOf(
                 android.Manifest.permission.CAMERA
@@ -145,6 +160,8 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
+
+    //settings for background and text
     private fun settings(){
         val backGround: ConstraintLayout = findViewById(R.id.CamaraLayout)
         if (darkMode){

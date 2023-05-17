@@ -3,6 +3,7 @@ package com.example.staffshelper
 
 import com.google.gson.annotations.SerializedName
 
+//weather data class
 data class Weather(
     val base: String,
     val clouds: Clouds,

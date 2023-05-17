@@ -40,20 +40,28 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
     var updateFrames: Int = 10
     var updateFrameCount: Int = 0
 
+    //default settings
     var darkMode: Boolean = false
     var textSize: Int = 18
     var textColour: String = "none" //only get colour from darkmode
 
+    //on create layout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map_mode)
 
+        //get data passed from main
         darkMode = intent.getBooleanExtra("SETTINGS_DARKMODE", false)
         textSize = intent.getIntExtra("SETTING_TXTSIZE", 18)
         textColour = intent.getStringExtra("SETTINGS_TEXTCOLOUR").toString()
+
+        //set settings
         settings()
+
+        //gets destination text view to notify user set destination
         var destinationTextView: TextView = findViewById(R.id.Destination)
 
+        //sets coordinates to cadman
         val cadmanCoordButton: Button = findViewById(R.id.Cadman)
         cadmanCoordButton.setOnClickListener{
             latitudeDestination = 2.10543
@@ -61,6 +69,7 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
             destinationTextView.text = "Cadman"
         }
 
+        //sets coordinates to mellor
         val mellorCoordButton: Button = findViewById(R.id.Mellor)
         mellorCoordButton.setOnClickListener{
             latitudeDestination = 2.18053
@@ -68,6 +77,7 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
             destinationTextView.text = "Mellor"
         }
 
+        //sets coordinates to science building
         val scienceCoordButton: Button = findViewById(R.id.ScienceBuilding)
         scienceCoordButton.setOnClickListener{
             latitudeDestination = 2.17794
@@ -75,6 +85,7 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
             destinationTextView.text = "Science Building"
         }
 
+        //sets coordinates to ashley 2
         val ashley2CoordButton: Button = findViewById(R.id.Ashley2)
         ashley2CoordButton.setOnClickListener{
             latitudeDestination = 2.17333
@@ -82,8 +93,8 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
             destinationTextView.text = "Ashley 2"
         }
 
+        //gets accelerometer data
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-
         if (sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION) != null){
             light = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
 
@@ -98,6 +109,7 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
 
     }
 
+    //restart sensor listener
     override fun onResume() {
         super.onResume()
         light?.let {
@@ -106,56 +118,58 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
+    //on pause stop sensor listener
     override fun onPause() {
         super.onPause()
         sensorManager.unregisterListener(this)
     }
 
+    //when accelorometer detects change in movement
     override fun onSensorChanged(event: SensorEvent) {
 
+        //get layout text view
         val speedXTxt: TextView = findViewById(R.id.Distance)
         val speedYTxt: TextView = findViewById(R.id.Speed)
         val speedZTxt: TextView = findViewById(R.id.Eta)
 
+        //get accelerometer data XYZ
         val speedX = event.values[0]
         val speedY = event.values[1]
         val speedZ = event.values[2]
 
+        //get vector speed
         val speedMS = Math.sqrt((speedX * speedX + speedY * speedY + speedZ * speedZ).toDouble())
 
-        //speedXTxt.text = speedX.toString()
-        //speedZTxt.text = speedZ.toString()
+        //gets GPS location
         getLocation()
         if (!(getSystemService(Context.LOCATION_SERVICE) as LocationManager)
                 .isProviderEnabled(LocationManager.GPS_PROVIDER)
         )
             noGPSAlert()
 
-        //Location enabled - is permission granted?
+        //checks GPS permissions
         else if (ActivityCompat.checkSelfPermission(
                 this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         )
             noPermissionsAlert()
+        //permission granted get location
         else {
-            //Location enabled and permission granted
             getLocation()
         }
 
-
-        //speedXTxt.text = distance.toBigDecimal().setScale(3, RoundingMode.UP).toString() + "KM"
-        //speedYTxt.text = speedMS.toBigDecimal().setScale(2, RoundingMode.UP).toString() + "m/s"
-
+        //calculate ETA from GPS and accelerometer data
         speedZTxt.text = "ETA: " + ((distance * 1000) / speedMS).toInt().toString() + "seconds"
 
     }
 
+    //is accruacy changes
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
-        //Toast.makeText(this, "Accuracy change", Toast.LENGTH_LONG).show()
+        //do nothing
     }
 
-
+    //send alert if GPS is not active
     private fun noGPSAlert() {
         AlertDialog.Builder(this)
             .setTitle("Enable Location")
@@ -168,6 +182,7 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
 
     }
 
+    //send alert of no permission is granted
     private fun noPermissionsAlert() {
         ActivityCompat.requestPermissions(
             this,
@@ -180,8 +195,10 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
 
     }
 
+    //gets location
     private fun getLocation() {
 
+        //checks if permissions are granted
         if (ActivityCompat.checkSelfPermission(
                 this,
                 ACCESS_FINE_LOCATION
@@ -192,11 +209,13 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
         ) {
             return
         }
+        //gets location data from GPS
         fusedLocationProviderClient.lastLocation.addOnSuccessListener {
                 location: Location? ->
             if (location == null) {
                 Toast.makeText(this, "problems", Toast.LENGTH_SHORT).show()
             } else {
+                //run distance calculation
                 haversineDistance(
                     location.latitude.toDouble(),
                     latitudeDestination,
@@ -208,6 +227,7 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
 
     }
 
+    //gets permissions for location
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -223,13 +243,13 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
-
+    //haversine used to calculate distance between 2 points on a globe
     fun haversineDistance(lat1: Double, lat2: Double, long1: Double, long2: Double) {
         var deltaLatitude = Math.toRadians(lat2 - lat1)
         var deltaLongitude = Math.toRadians(long2 - long1)
 
-        var latitudeA = Math.toRadians(lat1)//lat1 * 3.14156/180
-        var latitudeB = Math.toRadians(lat2)//lat2 * 3.14156/180
+        var latitudeA = Math.toRadians(lat1)
+        var latitudeB = Math.toRadians(lat2)
 
         var a = (Math.sin(deltaLatitude/2) * Math.sin(deltaLatitude/2)) +
                 (Math.sin(deltaLongitude/2) * Math.sin(deltaLongitude/2) * Math.cos(latitudeA) * Math.cos(latitudeB))
@@ -239,6 +259,7 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
 
     }
 
+    //settings for background and text
     private fun settings(){
         val backGround: ConstraintLayout = findViewById(R.id.MapLayout)
         val distanceTextView: TextView = findViewById(R.id.Distance)

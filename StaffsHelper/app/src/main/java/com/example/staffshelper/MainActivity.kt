@@ -17,12 +17,19 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
+    //on create layout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //gets and sets settings
         val settingsList = SettingsData.getSettings("settings.json", this)
-        getWeather()
         settings(settingsList)
+
+        //gets weather
+        getWeather()
+
+        //launches settings activity and passes setting data
         val settingsButton: ImageButton = findViewById(R.id.settingsButton)
         settingsButton.setOnClickListener{
             val settingsIntent: Intent = Intent(this, SettingsActivity::class.java).apply {
@@ -33,6 +40,7 @@ class MainActivity : AppCompatActivity() {
             launcher.launch(settingsIntent)
         }
 
+        //launches camera activity and passes setting data
         val cameraButton: ImageButton = findViewById(R.id.cameraButton)
         cameraButton.setOnClickListener{
             val cameraIntent: Intent = Intent(this, CameraActivity::class.java).apply {
@@ -43,6 +51,7 @@ class MainActivity : AppCompatActivity() {
             launcher.launch(cameraIntent)
         }
 
+        //launches map activity and passes setting data
         val mapButton: ImageButton = findViewById(R.id.mapButton)
         mapButton.setOnClickListener{
             val mapIntent: Intent = Intent(this, MapActivity::class.java).apply {
@@ -53,6 +62,7 @@ class MainActivity : AppCompatActivity() {
             launcher.launch(mapIntent)
         }
 
+        //launches emergency activity and passes setting data
         val emergancyButton: ImageButton = findViewById(R.id.emergancyButton)
         emergancyButton.setOnClickListener{
             val emergancyIntent: Intent = Intent(this, EmergancyActivity::class.java).apply {
@@ -69,6 +79,7 @@ class MainActivity : AppCompatActivity() {
     private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
     }
 
+    //settings for background and text
     private fun settings(settingsList: ArrayList<SettingsData>){
         //elements
         val txtName: TextView = findViewById(R.id.txtName)
@@ -105,22 +116,26 @@ class MainActivity : AppCompatActivity() {
         txtDescription.setTextSize(settingsList[0].textSize.toFloat())
     }
 
+    //gets weather
     private fun getWeather() {
+        //gets weather data from api
         val service  = ServiceBuilder.buildService(WeatherService::class.java)
         val requestCall = service.getWeather()
 
+        //gets layout text/ image
         val txtName: TextView = findViewById(R.id.txtName)
         val txtWeatherWarning: TextView = findViewById(R.id.txtWeatherWarning)
         val txtTemp: TextView = findViewById(R.id.txtTemp)
         val txtDescription: TextView = findViewById(R.id.txtDescription)
         val imgIcon: ImageView = findViewById(R.id.imgIcon)
 
+        //sets weather api data as object
         requestCall.enqueue(object : Callback<Weather> {
             override fun onResponse(call: Call<Weather>,
                                     response: Response<Weather>
             ) {
                 if (response.isSuccessful){
-                    //process data
+                    //set data as text/ image content
                     val weather  = response.body()!!
 
                     txtName.text = weather.name

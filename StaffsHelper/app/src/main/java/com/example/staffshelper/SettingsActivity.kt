@@ -8,28 +8,34 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.chip.Chip
 
 class SettingsActivity : AppCompatActivity() {
+    //default settings
     var darkMode: Boolean = false
     var textSize: Int = 18
     var textColour: String = "none" //only get colour from darkmode
 
+    //on create layout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+
+        //get data passed from main
         darkMode = intent.getBooleanExtra("SETTINGS_DARKMODE", false)
         textSize = intent.getIntExtra("SETTING_TXTSIZE", 18)
         textColour = intent.getStringExtra("SETTINGS_TEXTCOLOUR").toString()
 
+        //set settings
+        settings()
 
+        //on settings changes update settings json and settings
         val darkModeButton: Chip = findViewById(R.id.chip)
         darkModeButton.setOnClickListener {
             SettingsData.setSettings("settings.json", this)
             settings()
         }
 
-        settings()
-
     }
 
+    //settings for background and text
     private fun settings(){
         val backGround: ConstraintLayout = findViewById(R.id.SettingsLayout)
         val darkModeTextView: TextView = findViewById(R.id.DarkModeTxt)

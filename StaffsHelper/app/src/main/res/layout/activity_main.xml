@@ -23,7 +23,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/warning" />
 
     <ImageButton
         android:id="@+id/cameraButton"
@@ -40,7 +40,7 @@
         app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/horizontal"
-        app:srcCompat="@drawable/ic_menu_camera" />
+        app:srcCompat="@drawable/camera" />
 
     <ImageButton
         android:id="@+id/mapButton"
@@ -56,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/settingsButton"
         app:layout_constraintTop_toBottomOf="@id/horizontal2"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/location" />
 
     <ImageButton
         android:id="@+id/settingsButton"
@@ -72,7 +72,7 @@
         app:layout_constraintEnd_toStartOf="@+id/mapButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/horizontal2"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/settings" />
 
     <ImageView
         android:id="@+id/imgIcon"
