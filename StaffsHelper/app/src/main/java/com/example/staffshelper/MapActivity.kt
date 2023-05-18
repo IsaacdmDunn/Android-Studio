@@ -22,6 +22,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import java.math.RoundingMode
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 class MapActivity : AppCompatActivity(), SensorEventListener {
 
@@ -32,10 +37,10 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
 
     private  lateinit var sensorManager: SensorManager
 
-    private var light: Sensor? = null
+    private var accelerometer: Sensor? = null
     var distance: Double = 0.00
-    var latitudeDestination: Double = 2.10353
-    var longitudeDestination: Double = 53.00315
+    var longitudeDestination: Double = -2.175907
+    var latitudeDestination: Double = 53.008578
 
     var updateFrames: Int = 10
     var updateFrameCount: Int = 0
@@ -64,39 +69,39 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
         //sets coordinates to cadman
         val cadmanCoordButton: Button = findViewById(R.id.Cadman)
         cadmanCoordButton.setOnClickListener{
-            latitudeDestination = 2.10543
-            longitudeDestination = 53.00348
+            longitudeDestination = -2.18295
+            latitudeDestination = 53.00980
             destinationTextView.text = "Cadman"
         }
 
         //sets coordinates to mellor
         val mellorCoordButton: Button = findViewById(R.id.Mellor)
         mellorCoordButton.setOnClickListener{
-            latitudeDestination = 2.18053
-            longitudeDestination = 53.00964
+            longitudeDestination = -2.18053
+            latitudeDestination   = 53.00964
             destinationTextView.text = "Mellor"
         }
 
         //sets coordinates to science building
         val scienceCoordButton: Button = findViewById(R.id.ScienceBuilding)
         scienceCoordButton.setOnClickListener{
-            latitudeDestination = 2.17794
-            longitudeDestination = 53.00728
+            longitudeDestination= -2.17794
+            latitudeDestination  = 53.00728
             destinationTextView.text = "Science Building"
         }
 
         //sets coordinates to ashley 2
         val ashley2CoordButton: Button = findViewById(R.id.Ashley2)
         ashley2CoordButton.setOnClickListener{
-            latitudeDestination = 2.17333
-            longitudeDestination = 53.009792
+            longitudeDestination= -2.17333
+            latitudeDestination  = 53.009792
             destinationTextView.text = "Ashley 2"
         }
 
         //gets accelerometer data
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         if (sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION) != null){
-            light = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
+            accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
 
         }
         else {
@@ -112,9 +117,9 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
     //restart sensor listener
     override fun onResume() {
         super.onResume()
-        light?.let {
-            light->sensorManager.registerListener(this,
-        light, SensorManager.SENSOR_DELAY_UI)
+        accelerometer?.let {
+            accelerometer->sensorManager.registerListener(this,
+        accelerometer, SensorManager.SENSOR_DELAY_UI)
         }
     }
 
@@ -128,9 +133,9 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
     override fun onSensorChanged(event: SensorEvent) {
 
         //get layout text view
-        val speedXTxt: TextView = findViewById(R.id.Distance)
-        val speedYTxt: TextView = findViewById(R.id.Speed)
-        val speedZTxt: TextView = findViewById(R.id.Eta)
+        val distanceTxt: TextView = findViewById(R.id.Distance)
+        val speedTxt: TextView = findViewById(R.id.Speed)
+        val ETATxt: TextView = findViewById(R.id.Eta)
 
         //get accelerometer data XYZ
         val speedX = event.values[0]
@@ -159,8 +164,10 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
             getLocation()
         }
 
+        distanceTxt.text = distance.toInt().toString() + " meters"
+        speedTxt.text = speedMS.toBigDecimal().setScale(2, RoundingMode.DOWN).toString() + "m/s"
         //calculate ETA from GPS and accelerometer data
-        speedZTxt.text = "ETA: " + ((distance * 1000) / speedMS).toInt().toString() + "seconds"
+        ETATxt.text = "ETA: " + (distance / speedMS).toInt().toString() + "seconds"
 
     }
 
@@ -251,10 +258,14 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
         var latitudeA = Math.toRadians(lat1)
         var latitudeB = Math.toRadians(lat2)
 
-        var a = (Math.sin(deltaLatitude/2) * Math.sin(deltaLatitude/2)) +
-                (Math.sin(deltaLongitude/2) * Math.sin(deltaLongitude/2) * Math.cos(latitudeA) * Math.cos(latitudeB))
-        var c = (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)))
-        distance = 6371 * c
+        var r = 6378137 //mean earth radius in meters
+
+        var a = sin(deltaLatitude/2) * sin(deltaLatitude/2) +
+                cos(latitudeA) * cos(latitudeB) *
+                sin(deltaLongitude/2) * sin(deltaLongitude/2)
+
+        var c = (2 * atan2(sqrt(a), sqrt(1-a)))
+        distance = r * c
 
 
     }

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -15,6 +16,7 @@ import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.Duration
 
 class MainActivity : AppCompatActivity() {
     //on create layout
@@ -141,7 +143,7 @@ class MainActivity : AppCompatActivity() {
                     txtName.text = weather.name
                     if(weather.weather[0].description == "rain")
                     {
-                        txtWeatherWarning.text = "Warning Weather Trip Hazard"
+                        txtWeatherWarning.text = "!"
                     }
                     txtTemp.text = weather.main.temp.toString()
                     txtDescription.text = weather.weather[0].description
@@ -149,23 +151,14 @@ class MainActivity : AppCompatActivity() {
 
                 }else{
                     //output alert
-                    AlertDialog.Builder(this@MainActivity)
-                        .setTitle("API error")
-                        .setMessage("Response, but something went wrong ${response.message()}")
-                        .setPositiveButton(android.R.string.ok) { _, _ -> }
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show()
+                    Toast.makeText(baseContext, "Error getting weather", Toast.LENGTH_SHORT).show()
+
 
                 }
             }
             override fun onFailure(call: Call<Weather>, t: Throwable) {
                 //process failure
-                AlertDialog.Builder(this@MainActivity)
-                    .setTitle("API error")
-                    .setMessage("No response, and something went wrong $t")
-                    .setPositiveButton(android.R.string.ok) { _, _ -> }
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show()
+                Toast.makeText(baseContext, "Failed to get weather", Toast.LENGTH_SHORT).show()
 
             }
         })
